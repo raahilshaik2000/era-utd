@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ERA @ UT Dallas
 
-## Getting Started
+Website for ERA, the tech and entrepreneurial network at UT Dallas. ERA helps students land internships and works with companies that hire them.
 
-First, run the development server:
+- `/` landing page
+- `/join` sign-up for students (`@utdallas.edu` email) and companies (`/join?type=company`)
+
+## Stack
+
+Next.js 15 (App Router), Tailwind CSS v4, GSAP (ScrollTrigger, SplitText), Lenis smooth scroll, a raw WebGL background shader, zod validation.
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev -- -p 3002
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In development, sign-ups are appended to `.data/signups.jsonl` (gitignored).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Sign-ups in production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`POST /api/signup` forwards each sign-up as JSON to `SIGNUP_WEBHOOK_URL` (a Google Sheets Apps Script, Zapier or Make hook, etc). Without that variable set, production returns 503 and tells visitors to join the Discord instead.
 
-## Learn More
+```bash
+vercel env add SIGNUP_WEBHOOK_URL production
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copy lives in `src/lib/content.ts`. Only facts ERA has published are used. Add partner companies, numbers or photos there once ERA supplies them.
